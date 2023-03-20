@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=/usr
+libdir=/usr/lib
+includedir=/usr/include
+
+Name: libkmod
+Description: Library to deal with kernel modules
+Version: 27
+Libs: -L${libdir} -lkmod
+Libs.private:  -L/home/sofar/Desktop/imx6ull_bsp/rootfs/buildroot-2020.08/output/host/bin/../arm-buildroot-linux-gnueabihf/sysroot/usr/lib -lz 
+Cflags: -I${includedir}

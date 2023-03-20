@@ -1,0 +1,31 @@
+#此文件不要在windows系统下修改
+
+#!/bin/sh
+
+# 添加用户库路径到环境变量
+export LD_LIBRARY_PATH=/opt/lib:$LD_LIBRARY_PATH
+
+# 加载文件
+source /opt/conf/network
+
+ifconfig lo 127.0.0.1
+if [ "$ETH0" = "1" ]; then
+	if [ "$DHCP" = "1" ]; then
+	udhcpc -b -i eth0
+	else
+	ifconfig eth0 down
+	ifconfig eth0 $IP netmask $Mask up
+	fi
+fi
+route add default gw $Gateway
+
+# 应用
+sleep 2
+chmod 777 /opt/bin/app_start
+chmod 777 /opt/bin/master
+chmod 777 /opt/bin/web_server
+chmod 777 /opt/bin/update_server
+
+/opt/bin/app_start &
+
+#mount -t nfs 192.168.1.128:/home/test /mnt -o nolock
